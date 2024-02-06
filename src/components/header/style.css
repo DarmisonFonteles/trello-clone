@@ -1,0 +1,26 @@
+.header{
+    padding: 10px 0px;
+}
+
+.header-campo{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.header-campo-logo{
+    width: 150px;
+}
+
+.header-novo-ticket{
+    background-color: #4c12a1;
+    border-radius: 18px;
+    font-size: 16px;
+    height: 100%;
+}
+
+.header-novo-ticket:hover{
+    background: #FFF !important;
+    color: #4c12a1 !important;
+    border: 1px solid #4c12a1 !important;
+}
