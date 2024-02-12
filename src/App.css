@@ -1,11 +1,7 @@
-.App{
-  height: 100%;
-  width: 100%;
-}
-
 .container{
   width: 1280px;
-  height: 100%;
   margin-left: auto;
   margin-right: auto;
 }
+
+iframe#webpack-dev-server-client-overlay{display:none!important}
