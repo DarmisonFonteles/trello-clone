@@ -1,15 +1,15 @@
 import React from "react";
-import { Modal } from 'antd';
 import { Cascader } from 'antd';
 import { Input } from 'antd';
 import { InboxOutlined } from '@ant-design/icons';
 import { message, Upload } from 'antd';
+import { Form } from 'antd';
 
 import { options_one, options_two } from "./variables";
 
 const { Dragger } = Upload;
 
-export default function ModalCustom({title, open, onOK, onCancel}){
+export default function ModalCustom({propsForms}){
 
     const onChange = (value) => {
         console.log(value);
@@ -36,33 +36,34 @@ export default function ModalCustom({title, open, onOK, onCancel}){
     };
 
     return(
-        <Modal
-            title={title}
-            centered
-            open={open}
-            onOk={onOK}
-            onCancel={onCancel}
-        >
+          <Form form={propsForms} >
             <p>Descrição*</p>
-            <Input placeholder="Descrição" />
+              <Form.Item name="Descricao">
+                <Input placeholder="Descrição" />
+              </Form.Item>
             <p>Tipo*</p>
-            <Cascader
-                style={{ width: '100%' }}
-                options={options_one} 
-                onChange={onChange} 
-                placeholder="Please select" 
-            />
+              <Form.Item name="Tipo">
+                <Cascader
+                    style={{ width: '100%' }}
+                    options={options_one} 
+                    onChange={onChange} 
+                    placeholder="Please select" 
+                />
+              </Form.Item>
             <p>Resposavel*</p>
-            <Cascader 
-                style={{ width: '100%' }}
-                options={options_two} 
-                onChange={onChange} 
-                placeholder="Please select" 
-            />
-
+              <Form.Item name="Resposavel">
+                <Cascader 
+                    style={{ width: '100%' }}
+                    options={options_two} 
+                    onChange={onChange} 
+                    placeholder="Please select" 
+                />
+              </Form.Item>
             <Dragger {...propsFile}>
                 <p className="ant-upload-drag-icon">
-                <InboxOutlined />
+                  <Form.Item name="File">
+                    <InboxOutlined />
+                  </Form.Item>
                 </p>
                 <p className="ant-upload-text">Click or drag file to this area to upload</p>
                 <p className="ant-upload-hint">
@@ -70,6 +71,6 @@ export default function ModalCustom({title, open, onOK, onCancel}){
                 banned files.
                 </p>
             </Dragger>
-        </Modal>
+          </Form>
     )
 }

@@ -1,9 +1,5 @@
 export const inicialItems = [
     { id: "1", tipo: "Procedimento", titulo: "consertor de eletro", responsavel: "Darmison F", file: "" },
-    { id: "2", tipo: "Conteúdo 2" },
-    { id: "3", tipo: "Conteúdo 3" },
-    { id: "4", tipo: "Procedimento", titulo: "consertor de eletro", responsavel: "Darmison F", file: "" },
-    { id: "5", tipo: "Procedimento", titulo: "consertor de eletro", responsavel: "Darmison F", file: "" },
 ];
 
 export const InicialColumns = [

@@ -5,6 +5,7 @@ import { Draggable } from "react-beautiful-dnd";
 import { EllipsisOutlined } from '@ant-design/icons';
 import { Button } from 'antd';
 import ModalCustom from '../custommodal';
+import { Modal } from 'antd';
 
 import { InicialColumns } from "./variables";
 import './style.css'
@@ -92,7 +93,7 @@ export default function Item(){
                                         <div className="item-itens">
                                             
                                             
-                                                    {item.file}
+                                                {item.file}
                                              
                                             <p className="item-content">{item.tipo}</p>
                                             <p className="item-id">{item.id}</p>
@@ -104,15 +105,15 @@ export default function Item(){
                                                     <EllipsisOutlined />
                                                 </Button>
 
-                                                <ModalCustom
+                                                <Modal
                                                     title="Novo ticket"
                                                     centered
                                                     open={modal2Open}
                                                     onOk={() => setModal2Open(false)}
                                                     onCancel={() => setModal2Open(false)}
                                                 >
-
-                                                </ModalCustom>
+                                                    <ModalCustom></ModalCustom>
+                                                </Modal>
 
                                             </div>
                                             
