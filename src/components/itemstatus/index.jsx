@@ -1,19 +1,30 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { DragDropContext } from "react-beautiful-dnd";
 import { Droppable } from "react-beautiful-dnd";
 import { Draggable } from "react-beautiful-dnd";
 import { EllipsisOutlined } from '@ant-design/icons';
 import { Button } from 'antd';
 import ModalCustom from '../custommodal';
+import { Modal } from 'antd';
 
 import { InicialColumns } from "./variables";
 import './style.css'
 
+import { useFormContext } from '../../context/formcontext';
+
 export default function Item(){
+
+    const { formData, updateFormData } = useFormContext();
 
     const [columns, setColumns] = useState(InicialColumns);
 
     const [modal2Open, setModal2Open] = useState(false);
+
+    const [dados, setDados] = useState([]);
+
+    useEffect(() => {
+        setDados(formData)
+    }, [formData])
 
     const onDragEnd = (result) => {
 
@@ -69,7 +80,7 @@ export default function Item(){
 
     return(
         <DragDropContext onDragEnd={onDragEnd}>
-            {columns.map((column) => (
+            {dados.map((column) => (
                 <div style={{ display: "flex", flexDirection: "column", alignItems: "center", marginLeft: 10, marginRight: 10, height: '80vh' }}>
                     <div style={{backgroundColor: column.color, width: '100%', borderTopLeftRadius: 12, borderTopRightRadius: 12}}>
                         <h3 style={{padding: 10, margin: 0}}>{column.name}</h3>
@@ -92,7 +103,7 @@ export default function Item(){
                                         <div className="item-itens">
                                             
                                             
-                                                    {item.file}
+                                                {item.file}
                                              
                                             <p className="item-content">{item.tipo}</p>
                                             <p className="item-id">{item.id}</p>
@@ -103,21 +114,23 @@ export default function Item(){
                                                 <Button className='item-button' type="primary" onClick={() => setModal2Open(true)}>
                                                     <EllipsisOutlined />
                                                 </Button>
-
-                                                <ModalCustom
+                                                <Modal
                                                     title="Novo ticket"
                                                     centered
                                                     open={modal2Open}
                                                     onOk={() => setModal2Open(false)}
                                                     onCancel={() => setModal2Open(false)}
                                                 >
-
-                                                </ModalCustom>
-
-                                            </div>
-                                            
-                                            
-                                            
+                                                    <ModalCustom></ModalCustom>
+                                                </Modal>
+                                            </div>       
+                                        </div>
+                                        <div>
+                                            <p>Descrição: {formData.id}</p>
+                                            <p>Descrição: {formData.Descricao}</p>
+                                            <p>Tipo: {formData.Tipo}</p>
+                                            <p>Responsável: {formData.Responsavel}</p>
+                                            {/* Aqui você pode adicionar mais campos do formulário, conforme necessário */}
                                         </div>
                                     </div>
                                 )}

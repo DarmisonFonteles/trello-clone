@@ -1,75 +1,86 @@
-import React from "react";
-import { Modal } from 'antd';
-import { Cascader } from 'antd';
-import { Input } from 'antd';
+import React from 'react';
+import { Form, Input, Cascader, Upload, Button } from 'antd';
 import { InboxOutlined } from '@ant-design/icons';
-import { message, Upload } from 'antd';
-
-import { options_one, options_two } from "./variables";
+import { useFormContext } from '../../context/formcontext';
+import { options_one, options_two } from './variables'
 
 const { Dragger } = Upload;
 
-export default function ModalCustom({title, open, onOK, onCancel}){
+export default function ModalCustom({propsForms}){
 
-    const onChange = (value) => {
-        console.log(value);
-    };
+  const { formData, updateFormData } = useFormContext();
 
-    const propsFile = {
-        name: 'file',
-        multiple: true,
-        action: 'https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188',
-        onChange(info) {
-          const { status } = info.file;
-          if (status !== 'uploading') {
-            console.log(info.file, info.fileList);
-          }
-          if (status === 'done') {
-            message.success(`${info.file.name} file uploaded successfully.`);
-          } else if (status === 'error') {
-            message.error(`${info.file.name} file upload failed.`);
-          }
-        },
-        onDrop(e) {
-          console.log('Dropped files', e.dataTransfer.files);
-        },
-    };
+  const handleChange = (fieldName, value) => {
+    // updateFormData(fieldName, value);
+  };
 
-    return(
-        <Modal
-            title={title}
-            centered
-            open={open}
-            onOk={onOK}
-            onCancel={onCancel}
-        >
-            <p>Descrição*</p>
-            <Input placeholder="Descrição" />
-            <p>Tipo*</p>
-            <Cascader
-                style={{ width: '100%' }}
-                options={options_one} 
-                onChange={onChange} 
-                placeholder="Please select" 
-            />
-            <p>Resposavel*</p>
-            <Cascader 
-                style={{ width: '100%' }}
-                options={options_two} 
-                onChange={onChange} 
-                placeholder="Please select" 
-            />
+  const handleFileChange = (info) => {
+    const { file } = info;
+    // updateFormData('File', file);
+  };
 
-            <Dragger {...propsFile}>
-                <p className="ant-upload-drag-icon">
-                <InboxOutlined />
-                </p>
-                <p className="ant-upload-text">Click or drag file to this area to upload</p>
-                <p className="ant-upload-hint">
-                Support for a single or bulk upload. Strictly prohibited from uploading company data or other
-                banned files.
-                </p>
-            </Dragger>
-        </Modal>
-    )
+  const onFinish = (values) => {
+    console.log('Received values:', values);
+    
+    const testesav = {
+      id: '',
+      Descricao: '',
+      Tipo: '',
+      Responsavel: '',
+      File: null,
+    }
+    
+    updateFormData(values);
+
+    console.log(formData);
+  };
+
+  function gerarID() {
+    let id = '';
+    const caracteres = '0123456789';
+    const comprimentoID = 5;
+    
+    for (let i = 0; i < comprimentoID; i++) {
+      const indiceAleatorio = Math.floor(Math.random() * caracteres.length);
+      id += caracteres.charAt(indiceAleatorio);
+    }
+    
+    return id;
+  }
+
+  return (
+    <Form onFinish={onFinish}>
+      <Form.Item name="Descricao" label="Descrição" rules={[{ required: true }]}>
+        <Input value={formData.Descricao} onChange={(e) => handleChange('Descricao', e.target.value)} />
+      </Form.Item>
+      <Form.Item name="Tipo" label="Tipo" rules={[{ required: true }]}>
+        <Cascader
+          options={options_one}
+          onChange={(value) => handleChange('Tipo', value)}
+          placeholder="Please select"
+        />
+      </Form.Item>
+      <Form.Item name="Responsavel" label="Responsável" rules={[{ required: true }]}>
+        <Cascader
+          options={options_two}
+          onChange={(value) => handleChange('Responsavel', value)}
+          placeholder="Please select"
+        />
+      </Form.Item>
+      <Form.Item name="File" label="Arquivo">
+        <Dragger onChange={handleFileChange}>
+          <p className="ant-upload-drag-icon">
+            <InboxOutlined />
+          </p>
+          <p className="ant-upload-text">Click or drag file to this area to upload</p>
+          <p className="ant-upload-hint">Support for a single or bulk upload.</p>
+        </Dragger>
+      </Form.Item>
+      <Form.Item>
+        <Button type="primary" htmlType="submit">
+          Submit
+        </Button>
+      </Form.Item>
+    </Form>
+  );
 }
